@@ -1,8 +1,9 @@
-from PIL import Image, ImageDraw, ImageFont
+import argparse
+
 import numpy as np
+from PIL import Image, ImageDraw, ImageFont
 from skimage import color
 from sklearn.cluster import KMeans
-import argparse
 
 
 def load_image_as_pixels(path: str, resize: int = 200):
@@ -57,7 +58,7 @@ def lab_to_palette(centers: np.ndarray, labels: np.ndarray):
     } for i in pallette]
 
 
-def palette_overlay(image_path: str, palette: list):
+def palette_overlay(image_path: str, palette: list, output_path: str = "palette.jpg"):
     im = Image.open(image_path)
     width, height = im.size
 
@@ -78,7 +79,7 @@ def palette_overlay(image_path: str, palette: list):
         draw.paste(segment, (i * segment_width, 0))
 
     new_im.paste(draw, (0, height))
-    new_im.save("./examples/output_with_palette.jpg")
+    new_im.save(output_path)
 
 
 def print_color_block(hex_color):
@@ -98,6 +99,8 @@ def main():
                         help="Number of colors to extract.")
     parser.add_argument("--resize", "-r", type=int, default=200,
                         help="Resize dimension for processing.")
+    parser.add_argument("--output", "-o", type=str,
+                        default="palette.jpg", help="Output image with palette overlay.")
     args = parser.parse_args()
 
     pixels = load_image_as_pixels(args.image, resize=args.resize)
@@ -105,7 +108,7 @@ def main():
     labels, centers = cluster_pixels(pixels, n_clusters=args.colors)
 
     palette = lab_to_palette(centers, labels)
-    palette_overlay(args.image, palette)
+    palette_overlay(args.image, palette, output_path=args.output)
 
     for color_info in palette:
         print_color_block(color_info["hex"])
