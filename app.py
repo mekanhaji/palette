@@ -1,4 +1,4 @@
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 from skimage import color
 from sklearn.cluster import KMeans
@@ -70,6 +70,10 @@ def palette_overlay(image_path: str, palette: list):
     for i, color_info in enumerate(palette):
         hex_color = color_info["hex"]
         segment = Image.new("RGB", (segment_width, palette_height), hex_color)
+        segment_draw = ImageDraw.Draw(segment)
+        font = ImageFont.load_default(size=25)
+        segment_draw.text((10, 10), color_info["hex"], fill=(
+            255, 255, 255), font=font, align="center")
         draw.paste(segment, (i * segment_width, 0))
 
     new_im.paste(draw, (0, height))
