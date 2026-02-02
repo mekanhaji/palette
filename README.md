@@ -13,6 +13,8 @@ Simple cli tool for extracting color palettes from images.
 uv run app.py -i ./examples/image1.jpg -c 5 -r 300
 ```
 
+![alt text](/docs/image.png)
+
 This will extract 5 dominant colors from `image1.jpg`, resizing the image to 300 pixels for processing.
 
 ### Arguments
