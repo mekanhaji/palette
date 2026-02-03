@@ -1,9 +1,15 @@
 [project]
 name = "palette"
 version = "0.1.0"
-description = "Add your description here"
+description = "Simple CLI tool to extract dominant color palettes from images"
 readme = "README.md"
 requires-python = ">=3.12"
+license = {text = "MIT"}
+authors = [
+    {name = "Jha Kanhaiya", email = ""},
+]
+keywords = ["color-palette", "image-processing", "cli"]
+
 dependencies = [
     "numpy>=2.4.2",
     "pillow>=12.1.0",
